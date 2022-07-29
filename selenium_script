@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://www.livejournal.com/" />
+<title>lj_export</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">lj_export</td></tr>
+</thead><tbody>
+<!--A variable or two.-->
+<tr>
+	<td>store</td>
+	<td>your-username</td>
+	<td>username</td>
+</tr>
+<tr>
+	<td>store</td>
+	<td>lol-u-tried</td>
+	<td>password</td>
+</tr>
+<!--Log into LJ, if needed.-->
+<tr>
+	<td>open</td>
+	<td>https://www.livejournal.com/login.bml</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeTextPresent</td>
+	<td>You are logged in</td>
+	<td>alreadyIn</td>
+</tr>
+<tr>
+	<td>gotoIf</td>
+	<td>storedVars['alreadyIn'] == true</td>
+	<td>skipOn</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=(//input[@id='user'])[2]</td>
+	<td>${username}</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>xpath=(//input[@id='lj_loginwidget_password'])[2]</td>
+	<td>${password}</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>xpath=(//button[@name='action:login'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>label</td>
+	<td>skipOn</td>
+	<td></td>
+</tr>
+<!--Go to the calendar.-->
+<tr>
+	<td>open</td>
+	<td>http://${username}.livejournal.com/calendar</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeText</td>
+	<td>//div[@id='alpha-inner']/div/ul</td>
+	<td>str_years</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>storedVars['str_years'].split(&quot; &quot;)</td>
+	<td>all_years</td>
+</tr>
+<!--Go to the export page.-->
+<tr>
+	<td>open</td>
+	<td>/export.bml</td>
+	<td></td>
+</tr>
+<tr>
+	<td>break</td>
+	<td>// change your settings as needed</td>
+	<td></td>
+</tr>
+<!--Select the next line and press the key S to have it be the start point, so you can continue.-->
+<tr>
+	<td>store</td>
+	<td>0</td>
+	<td>x</td>
+</tr>
+<tr>
+	<td>while</td>
+	<td>parseInt(storedVars['x']) &lt; storedVars['all_years'].length</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>storedVars['all_years'][parseInt(storedVars['x'])]</td>
+	<td>cur_year</td>
+</tr>
+<tr>
+	<td>store</td>
+	<td>1</td>
+	<td>mnt</td>
+</tr>
+<tr>
+	<td>while</td>
+	<td>parseInt(storedVars['mnt']) &lt;= 12</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=year</td>
+	<td>${cur_year}</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=month</td>
+	<td>${mnt}</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=input[type=&quot;submit&quot;]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pause</td>
+	<td>3000</td>
+	<td></td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>parseInt(storedVars['mnt']) + 1</td>
+	<td>mnt</td>
+</tr>
+<tr>
+	<td>endWhile</td>
+	<td></td>
+	<td>// months</td>
+</tr>
+<tr>
+	<td>storeEval</td>
+	<td>parseInt(storedVars['x']) + 1</td>
+	<td>x</td>
+</tr>
+<tr>
+	<td>endWhile</td>
+	<td></td>
+	<td>// years</td>
+</tr>
+</tbody></table>
+</body>
+</html>
